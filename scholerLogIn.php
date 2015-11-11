@@ -1,9 +1,8 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
     <head>
-        <meta charset="utf-8">
-
-        <title>প্রশ্ন করুন</title>
+        <meta charset="UTF-8">
+        <title>Login</title>
         <meta name="description" content="My Parse App">
         <meta name="viewport" content="width=device-width">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
@@ -13,12 +12,32 @@
         use Parse\ParseClient;
         use Parse\ParseObject;
         use Parse\ParseException;
+        use Parse\ParseQuery;
 
 ParseClient::initialize('jVbb8uYocFpOhxTnZtY8DqvVmiEVgWQyU71K24p0', 'ilsN27z74t3N7FAxGVNk7KNDZPwprFbMqWGlQQk8', 'XWMlF7HBGQgblHHN242MfBMjuZJzxH17zzkvo0SB');
         ?>
     </head>
 
     <body>
+<?php
+if (isset($_POST['submit'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    if ($username == '' || $password == '') {
+        echo 'Please enter your name and question.';
+    } elseif (strlen($username) > 0 && strlen(trim($username)) == 0) {
+        echo 'Please enter your username.';
+    } elseif (strlen($password) > 0 && strlen(trim($password)) == 0) {
+        echo 'Please enter password.';
+    } else {
+        $olama = new ParseQuery("Olama");
+        $olama->equalTo("username", $username);
+        $result = $olama->find();
+        if ($result == null) {
+        }
+    }
+}
+?>
         <div class="container">
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
@@ -54,47 +73,22 @@ ParseClient::initialize('jVbb8uYocFpOhxTnZtY8DqvVmiEVgWQyU71K24p0', 'ilsN27z74t3
                 </div><!-- /.container-fluid -->
             </nav>
         </div>
-
-
-        <div style="padding-left: 100px; padding-right: 100px">
-            <?php
-            if (isset($_POST['submit'])) {
-                $name = $_POST['name'];
-                $question = $_POST['question'];
-                if ($name == '' || $question == '') {
-                    echo 'Please enter your name and question.';
-                } elseif (strlen($name) > 0 && strlen(trim($name)) == 0) {
-                    echo 'Please enter your name.';
-                } elseif (strlen($question) > 0 && strlen(trim($question)) == 0) {
-                    echo 'Please enter a question.';
-                } else {
-                    $questionAnswer = new ParseObject("QuestionAnswer");
-                    $questionAnswer->set("question", $question);
-                    $questionAnswer->set("name", $name);
-                    $questionAnswer->set("isAnswered", FALSE);
-                    try {
-                        $questionAnswer->save();
-                        echo 'Submitted your question';
-                    } catch (ParseException $exc) {
-                        echo $exc->getTraceAsString();
-                    }
-                }
-            }
-            ?>
-            <div class="container">
+        <div class="container">
+          
+            <div style="padding-left: 200px;padding-right: 200px">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">প্রশ্ন করুন </h3>
+                        <h3 class="panel-title">Login</h3>
                     </div>
                     <div class="panel-body">
-                        <form action="postQuestion.php" method="post">
+                        <form action="scholerLogIn.php" method="post">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">আপনার নাম</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="নাম">
+                                <label for="exampleInputEmail1">User name</label>
+                                <input type="text" class="form-control" id="name" name="username" placeholder="User name">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">প্রশ্ন</label>
-                                <input type="text" class="form-control" id="question" name="question" placeholder="প্রশ্ন">
+                                <label for="exampleInputPassword1">Password</label>
+                                <input type="text" class="form-control" id="question" name="password" placeholder="Password">
                             </div>
 
 
@@ -102,9 +96,9 @@ ParseClient::initialize('jVbb8uYocFpOhxTnZtY8DqvVmiEVgWQyU71K24p0', 'ilsN27z74t3
                         </form>
                     </div>
                 </div>
-               
+
+                <div style="padding-top: 200px"></div>
             </div>
         </div>
     </body>
-
 </html>

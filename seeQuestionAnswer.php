@@ -60,12 +60,21 @@ ParseClient::initialize('jVbb8uYocFpOhxTnZtY8DqvVmiEVgWQyU71K24p0', 'ilsN27z74t3
                     </div>
                     <div>
                         <table class="table table-bordered">
+                            <tr class="info">
+                                <td>#</td>
+                                <td></td>
+                                <td>প্রশ্ন</td>
+                                <td></td>
+                                <td>উত্তর</td>
+                                <td></td>
+                            </tr>
                             <?php
 
                             use Parse\ParseQuery;
                             use Parse\ParseFile;
 
-$q = new ParseQuery("QuestionAnswer");
+                            $q = new ParseQuery("QuestionAnswer");
+                            $q->equalTo("isAnswered", TRUE);
                             $results = $q->find();
                             $number = 1;
                             foreach ($results as $r) {
@@ -85,6 +94,8 @@ $q = new ParseQuery("QuestionAnswer");
                         </table>
                     </div>
                 </div>
+                <button class="btn btn-success btn-lg" type="submit" >Next</button>
+                <div style="padding-top: 200px"></div>
             </div>
         </div>
     </body>

@@ -1,9 +1,8 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
     <head>
-        <meta charset="utf-8">
-
-        <title>প্রশ্ন করুন</title>
+        <meta charset="UTF-8">
+        <title>প্রশ্নোত্তর</title>
         <meta name="description" content="My Parse App">
         <meta name="viewport" content="width=device-width">
         <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
@@ -17,7 +16,6 @@
 ParseClient::initialize('jVbb8uYocFpOhxTnZtY8DqvVmiEVgWQyU71K24p0', 'ilsN27z74t3N7FAxGVNk7KNDZPwprFbMqWGlQQk8', 'XWMlF7HBGQgblHHN242MfBMjuZJzxH17zzkvo0SB');
         ?>
     </head>
-
     <body>
         <div class="container">
             <nav class="navbar navbar-default">
@@ -54,57 +52,51 @@ ParseClient::initialize('jVbb8uYocFpOhxTnZtY8DqvVmiEVgWQyU71K24p0', 'ilsN27z74t3
                 </div><!-- /.container-fluid -->
             </nav>
         </div>
-
-
-        <div style="padding-left: 100px; padding-right: 100px">
-            <?php
-            if (isset($_POST['submit'])) {
-                $name = $_POST['name'];
-                $question = $_POST['question'];
-                if ($name == '' || $question == '') {
-                    echo 'Please enter your name and question.';
-                } elseif (strlen($name) > 0 && strlen(trim($name)) == 0) {
-                    echo 'Please enter your name.';
-                } elseif (strlen($question) > 0 && strlen(trim($question)) == 0) {
-                    echo 'Please enter a question.';
-                } else {
-                    $questionAnswer = new ParseObject("QuestionAnswer");
-                    $questionAnswer->set("question", $question);
-                    $questionAnswer->set("name", $name);
-                    $questionAnswer->set("isAnswered", FALSE);
-                    try {
-                        $questionAnswer->save();
-                        echo 'Submitted your question';
-                    } catch (ParseException $exc) {
-                        echo $exc->getTraceAsString();
-                    }
-                }
-            }
-            ?>
-            <div class="container">
+        <div class="container">
+            <div style="padding-left: 100px;padding-right: 100px">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">প্রশ্ন করুন </h3>
+                        <h3 class="panel-title">প্রশ্নোত্তর </h3>
                     </div>
-                    <div class="panel-body">
-                        <form action="postQuestion.php" method="post">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">আপনার নাম</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="নাম">
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">প্রশ্ন</label>
-                                <input type="text" class="form-control" id="question" name="question" placeholder="প্রশ্ন">
-                            </div>
+                    <div>
+                        <table class="table table-bordered">
+                            <tr class="info">
+                                <td>#</td>
+                                <td></td>
+                                <td>প্রশ্ন</td>
+                                <td></td>
+                                <td>উত্তর</td>
+                                <td></td>
+                            </tr>
+                            <?php
 
+                            use Parse\ParseQuery;
+                            use Parse\ParseFile;
 
-                            <button type="submit" class="btn btn-success " name="submit">Submit</button>
-                        </form>
+                            $q = new ParseQuery("QuestionAnswer");
+                            $q->equalTo("isAnswered", FALSE);
+                            $results = $q->find();
+                            $number = 1;
+                            foreach ($results as $r) {
+                                if ($number % 2 == 0) {
+                                    echo '<tr class="success"> ';
+                                } else {
+                                    echo '<tr class="warning"> ';
+                                }
+
+                                echo '<td>' . $number . '<td>';
+                                echo '<td>' . $r->get("question") . '<td>';
+                                echo '<td>' . $r->get("answer") . '<td>';
+                                echo '</tr>';
+                                $number++;
+                            }
+                            ?>
+                        </table>
                     </div>
                 </div>
-               
+                <button class="btn btn-success btn-lg" type="submit" >Next</button>
+                <div style="padding-top: 200px"></div>
             </div>
         </div>
     </body>
-
 </html>

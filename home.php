@@ -99,6 +99,12 @@ ParseClient::initialize('jVbb8uYocFpOhxTnZtY8DqvVmiEVgWQyU71K24p0', 'ilsN27z74t3
 
                     </div>
                 </div>
+                
+                <div style="padding-top: 200px"></div>
+                <div>
+                    <a href="scholerLogIn.php" target="_blank">ওলামা'স হোম</a>
+                </div>
+               
             </div>
         </div>
     </body>
