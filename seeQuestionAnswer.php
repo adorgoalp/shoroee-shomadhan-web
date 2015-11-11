@@ -13,9 +13,7 @@
         use Parse\ParseObject;
         use Parse\ParseException;
 
-        ParseClient::initialize('jVbb8uYocFpOhxTnZtY8DqvVmiEVgWQyU71K24p0', 
-        'ilsN27z74t3N7FAxGVNk7KNDZPwprFbMqWGlQQk8', 
-        'XWMlF7HBGQgblHHN242MfBMjuZJzxH17zzkvo0SB');
+ParseClient::initialize('jVbb8uYocFpOhxTnZtY8DqvVmiEVgWQyU71K24p0', 'ilsN27z74t3N7FAxGVNk7KNDZPwprFbMqWGlQQk8', 'XWMlF7HBGQgblHHN242MfBMjuZJzxH17zzkvo0SB');
         ?>
     </head>
     <body>
@@ -30,14 +28,14 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="home.php">শরয়ী সমাধান হোম</a>
+                        <a class="navbar-brand" href="home.php" target="_blank">শরয়ী সমাধান হোম</a>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li><a href="seeQuestionAnswer.php"> প্রশ্নোত্তর </a></li>
-                            <li><a href="postQuestion.php">প্রশ্ন করুন</a></li>
+                            <li><a href="seeQuestionAnswer.php" target="_blank"> প্রশ্নোত্তর </a></li>
+                            <li><a href="postQuestion.php" target="_blank">প্রশ্ন করুন</a></li>
                         </ul>
                         <form class="navbar-form navbar-left" role="search">
                             <div class="form-group">
@@ -54,15 +52,40 @@
                 </div><!-- /.container-fluid -->
             </nav>
         </div>
-        <?php
-        use Parse\ParseQuery;
-        use Parse\ParseFile;
+        <div class="container">
+            <div style="padding-left: 100px;padding-right: 100px">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">প্রশ্নোত্তর </h3>
+                    </div>
+                    <div>
+                        <table class="table table-bordered">
+                            <?php
 
-        $q = new ParseQuery("QuestionAnswer");
-        $results = $q->find();
-        foreach ($results as $r) {
-            echo '' . $r->get("question") . '<br>';
-        }
-        ?>
+                            use Parse\ParseQuery;
+                            use Parse\ParseFile;
+
+$q = new ParseQuery("QuestionAnswer");
+                            $results = $q->find();
+                            $number = 1;
+                            foreach ($results as $r) {
+                                if ($number % 2 == 0) {
+                                    echo '<tr class="success"> ';
+                                } else {
+                                    echo '<tr class="warning"> ';
+                                }
+
+                                echo '<td>' . $number . '<td>';
+                                echo '<td>' . $r->get("question") . '<td>';
+                                echo '<td>' . $r->get("answer") . '<td>';
+                                echo '</tr>';
+                                $number++;
+                            }
+                            ?>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
